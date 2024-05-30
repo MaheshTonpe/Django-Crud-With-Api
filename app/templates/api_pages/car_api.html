@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Api Crud Dashboard</h1>
+    <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+            class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="container d-flex justify-content-between">
+            <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                <h4>Car Crud</h4>
+            </div>
+            <!-- add Btn -->
+            <button type="button" class="btn btn-warning md-sm  mb-2" data-bs-toggle="modal"
+                data-bs-target="#addCarModel">Add
+                Car Api</button>
+        </div>
+
+        <!-- Add Car Modal -->
+        <div class="modal fade" id="addCarModel" tabindex="-1" aria-labelledby="addCarModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCarModelLabel">Add Car</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'car_add_api_data' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Brand Name">Brand Name</label>
+                                <input type="text" class="form-control" name="brand_name" placeholder="Enter Car Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Model Name">Model Name</label>
+                                <input type="text" class="form-control" name="model_name" placeholder="Enter Model Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Price">Price</label>
+                                <input type="text" class="form-control" name="price" placeholder="Enter Price" required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Car Modal -->
+        <!-- <div class="modal fade" id="updateCarModel" tabindex="-1" aria-labelledby="updateCarModelLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateCarModelLabel">Update Car</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/api_update_car_data/{{ api_data.id }}" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Brand Name">Brand Name</label>
+                                <input type="text" class="form-control" name="Brand Name" placeholder="Enter Car name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Model Name">Model Name</label>
+                                <input type="text" class="form-control" name="Model Name"
+                                    placeholder="Enter Model Name Name" required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Price">Price</label>
+                                <input type="text" class="form-control" name="Price" placeholder="Enter Book price"
+                                    required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Update">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>SNO</th>
+                    <th>Brand Name</th>
+                    <th>Model Name</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in api_data %}
+                <tr>
+                    <td>{{ i.id }}</td>
+                    <td>{{ i.brand_name }}</td>
+                    <td>{{ i.model_name }}</td>
+                    <td>{{ i.price }}</td>
+                    <td>
+                        <!-- Button to Open Update Car Modal -->
+                        <button type="button" class="btn btn-success md-sm" data-bs-toggle="modal"
+                            data-bs-target="#updateCarModel{{ i.id }}">Update</button>
+
+                        <!-- Update Car Modal -->
+                        <div class="modal fade" id="updateCarModel{{ i.id }}" tabindex="-1"
+                            aria-labelledby="updateCarModelLabel{{ i.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateCarModelLabel{{ i.id }}">Update Car
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'car_update_api_data' id=i.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="md-3">
+                                                <label for="Brand Name">Brand Name</label>
+                                                <input type="text" class="form-control" name="brand_name"
+                                                    placeholder="Enter Car name" required value="{{ i.brand_name }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Model Name">Model Name</label>
+                                                <input type="text" class="form-control" name="model_name"
+                                                    placeholder="Enter Model Name Name" required
+                                                    value="{{ i.model_name }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Price">Price</label>
+                                                <input type="text" class="form-control" name="price"
+                                                    placeholder="Enter Book price" required value="{{ i.price }}">
+                                            </div>
+                                            <div class="container text-center my-2"></div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-primary" value="Update">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'car_delete_api_data' id=i.id %} " class="btn btn-danger md-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="container d-flex justify-content-between">
+            <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                <h4>Book Crud</h4>
+            </div>
+            <button type="button" class="btn btn-warning md-sm mb-2" data-bs-toggle="modal"
+                data-bs-target="#addBookModel">Add Book</button>
+        </div>
+
+        <!-- Add Book Modal -->
+        <div class="modal fade" id="addBookModel" tabindex="-1" aria-labelledby="addBookModelLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBookModelLabel">Add Book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/addbook/" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Title">Book Name</label>
+                                <input type="text" class="form-control" name="Title" placeholder="Enter Book Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Author">Author</label>
+                                <input type="text" class="form-control" name="Author" placeholder="Enter Author Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Price">Price</label>
+                                <input type="text" class="form-control" name="Price" placeholder="Enter Price" required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Book Modal -->
+        <div class="modal fade" id="updateBookModel" tabindex="-1" aria-labelledby="updateBookModelLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateBookModelLabel">Update Book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/updatebook/{{ obj.id }}" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Title">Book Name</label>
+                                <input type="text" class="form-control" name="Title" placeholder="Enter Book Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Author">Author</label>
+                                <input type="text" class="form-control" name="Author" placeholder="Enter Author Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Price">Price</label>
+                                <input type="text" class="form-control" name="Price" placeholder="Enter Book price"
+                                    required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Update">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Your Table -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>SNO</th>
+                    <th>Book Name</th>
+                    <th>Author Name</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for obj in data %}
+                <tr>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.title }}</td>
+                    <td>{{ obj.author }}</td>
+                    <td>{{ obj.price }}</td>
+                    <td>
+                        <!-- Button to Open Update Book Modal -->
+                        <button type="button" class="btn btn-success md-sm" data-bs-toggle="modal"
+                            data-bs-target="#updateBookModel{{ obj.id }}">Update</button>
+
+                        <!-- Update Book Modal -->
+                        <div class="modal fade" id="updateBookModel{{ obj.id }}" tabindex="-1"
+                            aria-labelledby="updateBookModelLabel{{ obj.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateBookModelLabel{{ obj.id }}">Update Book
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/updatebook/{{ obj.id }}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="md-3">
+                                                <label for="Title">Book Name</label>
+                                                <input type="text" class="form-control" name="Title"
+                                                    placeholder="Enter Book Name" required value="{{ obj.title }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Author">Author</label>
+                                                <input type="text" class="form-control" name="Author"
+                                                    placeholder="Enter Author Name" required value="{{ obj.author }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Price">Price</label>
+                                                <input type="text" class="form-control" name="Price"
+                                                    placeholder="Enter Book price" required value="{{ obj.price }}">
+                                            </div>
+                                            <div class="container text-center my-2"></div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-primary" value="Update">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/deletebook/{{ obj.id }}" class="btn btn-danger md-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heading and Lists</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form">
+        <h1>Course Sign Up Page</h1>
+        <p>Please Note: First Name, Last Name, Password, and Email are required</p>
+        <form action="/addcourse" method="POST">
+            <div class="md-3">
+                <label for="First Name">First Name</label>
+                <input type="text" class="form-control" name="First Name" placeholder="Enter First Name" required>
+                <label for="Last Name">Last Name</label>
+                <input type="text" class="form-control" name="Last Name" placeholder="Enter Last Name" required>
+                <label for="email">Email</label>
+                <input type="text" class="form-control" name="email" placeholder="Enter Email" required>
+                <label for="Password">Password</label>
+                <input type="text" class="form-control" name="Password" placeholder="Enter Password" required>
+
+                <p> Are you over the age of 18?</p>
+                <input type="radio" name="over18" value="yes"> Yes
+                <input type="radio" name="over18" value="no"> No
+
+                <p>Do You have a Credit Card or Paypal</p>
+                <select name="stars" id="">
+                    <option value="1">Credit Card</option>
+                    <option value="2">Paypal</option>
+                    <option value="3">Both</option>
+                    <option value="4">None</option>
+                </select>
+                <input type="submit" value="Submit Feedback">
+        </form>
+    </div>
+</body>
+
+</html>

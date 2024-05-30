@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+{% block messages %}
+{{ message }}
+{% endblock messages %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow mb-4">
+            <!-- <div class="container d-flex justify-content-between"> -->
+            <!-- add Btn -->
+
+            <!-- </div> -->
+            <div class="card-header py-3 d-flex justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">User DataTable</h6>
+                <button type="button" class="btn btn-warning md-sm" data-bs-toggle="modal"
+                    data-bs-target="#addUserModel">Add
+                    User</button>
+            </div>
+
+            <!-- Add User Modal -->
+            <div class="modal fade" id="addUserModel" tabindex="-1" aria-labelledby="addUserModelLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addUserModelLabel">Add User</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/add/" method="POST">
+                                {% csrf_token %}
+                                <div class="md-3">
+                                    <label for="Name">Name</label>
+                                    <input type="text" class="form-control" name="Name" placeholder="Enter User Name"
+                                        required>
+                                </div>
+                                <div class="md-3">
+                                    <label for="Location">Location</label>
+                                    <input type="text" class="form-control" name="Location"
+                                        placeholder="Enter User Location" required>
+                                </div>
+                                <div class="md-3">
+                                    <label for="Email">Email</label>
+                                    <input type="text" class="form-control" name="Email" placeholder="Enter User Email"
+                                        required>
+                                </div>
+                                <div class="container text-center my-2"></div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-dark table-striped" id="dataTable" width="100%"
+                    cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>SNO</th>
+                            <th>User Name</th>
+                            <th>Location</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for person in persondata %}
+                        <tr>
+                            <td>{{ person.id }}</td>
+                            <td>{{ person.u_name }}</td>
+                            <td>{{ person.u_location }}</td>
+                            <td>{{ person.u_email }}</td>
+                            <td>
+                                <!-- Button to Open Update person Modal -->
+                                <button type="button" class="btn btn-success md-sm" data-bs-toggle="modal"
+                                    data-bs-target="#updateUserModel{{ person.id }}">Update</button>
+
+                                <!-- Update person Modal -->
+                                <div class="modal fade" id="updateUserModel{{ person.id }}" tabindex="-1"
+                                    aria-labelledby="updateUserModelLabel{{ person.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="updateUserModelLabel{{ person.id }}">Update
+                                                    person
+                                                </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/update/{{ person.id }}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="md-3">
+                                                        <label for="Name">User Name</label>
+                                                        <input type="text" class="form-control" name="Name"
+                                                            placeholder="Enter person name" required
+                                                            value="{{ person.u_name }}">
+                                                    </div>
+                                                    <div class="md-3">
+                                                        <label for="Location">Location</label>
+                                                        <input type="text" class="form-control" name="Location"
+                                                            placeholder="Enter User Location" required
+                                                            value="{{ person.u_location }}">
+                                                    </div>
+                                                    <div class="md-3">
+                                                        <label for="Email">Email</label>
+                                                        <input type="text" class="form-control" name="Email"
+                                                            placeholder="Enter User Email" required
+                                                            value="{{ person.u_email }}">
+                                                    </div>
+                                                    <div class="container text-center my-2"></div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <input type="submit" class="btn btn-primary" value="Update">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/delete/{{ person.id }}" class="btn btn-danger md-sm">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<!-- datatable plugins -->
+
+{% endblock js %}

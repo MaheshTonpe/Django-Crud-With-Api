@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="container d-flex justify-content-between">
+            <div class="d-flex flex-row-reverse bd-highlight mb-3">
+                <h4>Employee Crud</h4>
+            </div>
+            <!-- Add button -->
+            <button type="button" class="btn btn-warning md-sm  mb-2" data-bs-toggle="modal"
+                data-bs-target="#addEmployeeModal">Add Employee</button>
+        </div>
+        <!-- Add Employee Modal -->
+        <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="addEmployeeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addEmployeeModalLabel">Add Employee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/addemployee/" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Name">Employee Name</label>
+                                <input type="text" class="form-control" name="Name" placeholder="Enter Employee Name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Location">Employee Location</label>
+                                <input type="text" class="form-control" name="Location"
+                                    placeholder="Enter Employee Location" required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Email">Email</label>
+                                <input type="email" class="form-control" name="Email" placeholder="Enter Email"
+                                    required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Update Employee Modal -->
+        <div class="modal fade" id="updateEmployeeModal" tabindex="-1" aria-labelledby="updateEmployeeModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateEmployeeModalLabel">Update Employee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/updateemployee/{{ employee.id }}" method="POST">
+                            {% csrf_token %}
+                            <div class="md-3">
+                                <label for="Name">Employee Name</label>
+                                <input type="text" class="form-control" name="Name" placeholder="Enter Employee name"
+                                    required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Location">Employee Location</label>
+                                <input type="text" class="form-control" name="Location"
+                                    placeholder="Enter Employee Location" required>
+                            </div>
+                            <div class="md-3">
+                                <label for="Email">Email</label>
+                                <input type="email" class="form-control" name="Email" placeholder="Enter Book Email"
+                                    required>
+                            </div>
+                            <div class="container text-center my-2"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <input type="submit" class="btn btn-primary" value="Update">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>SNO</th>
+                    <th>Employee Name</th>
+                    <th>Location</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in data %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.e_name }}</td>
+                    <td>{{ employee.e_location }}</td>
+                    <td>{{ employee.e_email }}</td>
+                    <td>
+                        <!-- Button to Open Update Employee Modal -->
+                        <button type="button" class="btn btn-success md-sm" data-bs-toggle="modal"
+                            data-bs-target="#updateEmployeeModal{{ employee.id }}">Update</button>
+
+                        <!-- Update Employee Modal -->
+                        <div class="modal fade" id="updateEmployeeModal{{ employee.id }}" tabindex="-1"
+                            aria-labelledby="updateEmployeeModalLabel{{ employee.id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateEmployeeModalLabel{{ employee.id }}">Update
+                                            Employee</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/updateemployee/{{ employee.id }}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="md-3">
+                                                <label for="Name">Employee Name</label>
+                                                <input type="text" class="form-control" name="Name"
+                                                    placeholder="Enter Employee name" required
+                                                    value="{{ employee.e_name }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Location">Employee Location</label>
+                                                <input type="text" class="form-control" name="Location"
+                                                    placeholder="Enter Employee Location" required
+                                                    value="{{ employee.e_location }}">
+                                            </div>
+                                            <div class="md-3">
+                                                <label for="Email">Email</label>
+                                                <input type="email" class="form-control" name="Email"
+                                                    placeholder="Enter Book Email" required
+                                                    value="{{ employee.e_email }}">
+                                            </div>
+                                            <div class="container text-center my-2"></div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                                <input type="submit" class="btn btn-primary" value="Update">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/deleteemployee/{{ employee.id }}" class="btn btn-danger md-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}
